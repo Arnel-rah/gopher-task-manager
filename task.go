@@ -17,6 +17,7 @@ type Task struct {
 
 const fileName = "tasks.json"
 
+// LoadTasks
 func LoadTasks() ([]Task, error) {
 	fileData, err := os.ReadFile(fileName)
 	if err != nil {
@@ -34,7 +35,7 @@ func LoadTasks() ([]Task, error) {
 
 	return tasks, nil
 }
-
+// SaveTasks
 func SaveTasks(tasks []Task) error {
 	fileData, err := json.MarshalIndent(tasks, "", "  ")
 	if err != nil {
@@ -43,7 +44,7 @@ func SaveTasks(tasks []Task) error {
 
 	return os.WriteFile(fileName, fileData, 0644)
 }
-
+// AddTask
 func AddTask(description string) {
 	tasks, err := LoadTasks()
 	if err != nil {
@@ -72,4 +73,36 @@ func AddTask(description string) {
 	}
 
 	fmt.Printf("Task added successfully (ID: %d)\n", newID)
+}
+
+// UpdateTaskStatus
+func UpdateTaskStatus(id int, newStatus string) {
+	tasks, err := LoadTasks()
+	if err != nil {
+		fmt.Printf("Erreur : %v\n", err)
+		return
+	}
+
+	found := false
+	for i := range tasks {
+		if tasks[i].ID == id {
+			tasks[i].Status = newStatus
+			tasks[i].UpdatedAt = time.Now()
+			found = true
+			break
+		}
+	}
+
+	if !found {
+		fmt.Printf("Erreur : Tâche avec l'ID %d introuvable.\n", id)
+		return
+	}
+
+	err = SaveTasks(tasks)
+	if err != nil {
+		fmt.Printf("Erreur lors de la sauvegarde : %v\n", err)
+		return
+	}
+
+	fmt.Printf("Task %d marked as %s successfully\n", id, newStatus)
 }
