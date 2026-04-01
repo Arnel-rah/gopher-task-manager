@@ -29,6 +29,7 @@ func main() {
 		}
 		id, _ := strconv.Atoi(os.Args[2])
 		UpdateTaskStatus(id, "in-progress")
+		
 	case "mark-done":
 		if len(os.Args) < 3 {
 			fmt.Println("Erreur : ID manquant")
@@ -36,8 +37,13 @@ func main() {
 		}
 		id, _ := strconv.Atoi(os.Args[2])
 		UpdateTaskStatus(id, "done")
+
 	case "list":
-		fmt.Println("Liste des tâches (bientôt disponible...)")
+		filter := ""
+		if len(os.Args) > 2 {
+			filter = os.Args[2]
+		}
+		ListTasks(filter)
 
 	default:
 		fmt.Println("Commande inconnue")

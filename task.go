@@ -121,3 +121,21 @@ func DeleteTask(id int) {
     SaveTasks(newTasks)
     fmt.Printf("Task %d deleted successfully\n", id)
 }
+
+// ListTasks
+func ListTasks(filter string) {
+    tasks, err := LoadTasks()
+    if err != nil {
+        fmt.Println("Erreur de lecture:", err)
+        return
+    }
+
+    fmt.Println("ID  | Status      | Description")
+    fmt.Println("----|-------------|------------")
+
+    for _, t := range tasks {
+        if filter == "" || t.Status == filter {
+            fmt.Printf("%-3d | %-11s | %s\n", t.ID, t.Status, t.Description)
+        }
+    }
+}
