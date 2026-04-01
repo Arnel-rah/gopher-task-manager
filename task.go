@@ -106,3 +106,18 @@ func UpdateTaskStatus(id int, newStatus string) {
 
 	fmt.Printf("Task %d marked as %s successfully\n", id, newStatus)
 }
+
+// DeleteTask
+func DeleteTask(id int) {
+    tasks, _ := LoadTasks()
+    newTasks := []Task{}
+
+    for _, t := range tasks {
+        if t.ID != id {
+            newTasks = append(newTasks, t)
+        }
+    }
+
+    SaveTasks(newTasks)
+    fmt.Printf("Task %d deleted successfully\n", id)
+}
