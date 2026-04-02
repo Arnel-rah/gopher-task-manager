@@ -17,22 +17,38 @@ func main() {
 	switch command {
 	case "add":
 		if len(os.Args) < 3 {
-			fmt.Println("Erreur: Veuillez fournir une description pour la tâche.")
+			fmt.Println("Erreur: Veuillez fournir une description.")
 			return
 		}
 		AddTask(os.Args[2])
 
+	case "update":
+		if len(os.Args) < 4 {
+			fmt.Println("Usage: task-cli update [id] [description]")
+			return
+		}
+		id, _ := strconv.Atoi(os.Args[2])
+		UpdateTaskDescription(id, os.Args[3])
+
+	case "delete":
+		if len(os.Args) < 3 {
+			fmt.Println("Erreur: ID manquant.")
+			return
+		}
+		id, _ := strconv.Atoi(os.Args[2])
+		DeleteTask(id)
+
 	case "mark-in-progress":
 		if len(os.Args) < 3 {
-			fmt.Println("Erreur : ID manquant")
+			fmt.Println("Erreur: ID manquant.")
 			return
 		}
 		id, _ := strconv.Atoi(os.Args[2])
 		UpdateTaskStatus(id, "in-progress")
-		
+
 	case "mark-done":
 		if len(os.Args) < 3 {
-			fmt.Println("Erreur : ID manquant")
+			fmt.Println("Erreur: ID manquant.")
 			return
 		}
 		id, _ := strconv.Atoi(os.Args[2])
@@ -46,6 +62,7 @@ func main() {
 		ListTasks(filter)
 
 	default:
-		fmt.Println("Commande inconnue")
+		fmt.Printf("Commande inconnue: %s\n", command)
 	}
 }
+
