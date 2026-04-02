@@ -139,3 +139,29 @@ func ListTasks(filter string) {
         }
     }
 }
+
+func UpdateTaskDescription(id int, newDescription string) {
+	tasks, err := LoadTasks()
+	if err != nil {
+		fmt.Printf("Erreur : %v\n", err)
+		return
+	}
+
+	found := false
+	for i := range tasks {
+		if tasks[i].ID == id {
+			tasks[i].Description = newDescription
+			tasks[i].UpdatedAt = time.Now()
+			found = true
+			break
+		}
+	}
+
+	if !found {
+		fmt.Printf("Erreur : Tâche avec l'ID %d introuvable.\n", id)
+		return
+	}
+
+	SaveTasks(tasks)
+	fmt.Printf("Task %d updated successfully\n", id)
+}
