@@ -28,7 +28,7 @@ func main() {
 
 	fn, ok := commands[command]
 	if !ok {
-		fmt.Printf("Commande inconnue: %s\n", command)
+		fmt.Printf("Unknown command: %s\n", command)
 		return
 	}
 
@@ -39,7 +39,7 @@ func main() {
 
 func cmdAdd(args []string) error {
 	if len(args) < 1 {
-		return fmt.Errorf("Erreur: Veuillez fournir une description.")
+		return fmt.Errorf("error: Please provide a description")
 	}
 	AddTask(args[0])
 	return nil
@@ -47,7 +47,7 @@ func cmdAdd(args []string) error {
 
 func cmdUpdate(args []string) error {
 	if len(args) < 2 {
-		return fmt.Errorf("Usage: task-cli update [id] [description]")
+		return fmt.Errorf("usage: task-cli update [id] [description]")
 	}
 	id, err := parseID(args[0])
 	if err != nil {
@@ -95,7 +95,7 @@ func cmdList(args []string) error {
 
 func requireID(args []string) (int, error) {
 	if len(args) < 1 {
-		return 0, fmt.Errorf("Erreur: ID manquant.")
+		return 0, fmt.Errorf("error: Missing ID")
 	}
 	return parseID(args[0])
 }
@@ -103,7 +103,7 @@ func requireID(args []string) (int, error) {
 func parseID(s string) (int, error) {
 	id, err := strconv.Atoi(s)
 	if err != nil {
-		return 0, fmt.Errorf("Erreur: ID invalide (%s)", s)
+		return 0, fmt.Errorf("error: Invalid ID (%s)", s)
 	}
 	return id, nil
 }
